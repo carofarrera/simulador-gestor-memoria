@@ -66,3 +66,19 @@ Muestra una lista de todos los eventos registrados durante la ejecución, como m
 ### 0. Salir
 
 Finaliza la ejecución del simulador.  Los datos no se guardan de forma persistente, por lo que al reiniciar el programa todos los procesos se deberán crear nuevamente.
+
+## 📸 Capturas del funcionamiento
+
+Para ilustrar el uso del simulador, a continuación se presentan algunas capturas de pantalla tomadas durante su ejecución:
+
+### Menú principal
+
+Esta captura muestra el menú inicial del sistema con sus opciones para crear procesos, terminar procesos, acceder a páginas y consultar la memoria:
+
+![Menú principal del simulador](img/captura_menu.png)
+
+### Vista del mapa de memoria
+
+En la siguiente captura se observa la representación textual de la memoria RAM y del área de swap tras la creación de varios procesos.  Se aprecian los marcos ocupados por las páginas de distintos procesos y los marcos libres tanto en RAM como en Swap:
+
+![Representación de memoria RAM y Swap](img/captura_memoria.png)

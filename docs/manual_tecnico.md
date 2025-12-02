@@ -87,3 +87,19 @@ Los logs permiten auditar qué páginas fueron intercambiadas y en qué momento.
 ## 5. Consideraciones de extensión
 
 El diseño modular permite incorporar otras políticas de reemplazo (LRU o reloj) simplemente implementando una nueva clase que herede de `ReplacementAlgorithm` y suministrarla al `MemoryManager`.  Asimismo, podría añadirse una interfaz gráfica o exportar las métricas para su análisis externo.  El tamaño de la TLB y la política asociada también se pueden parametrizar para experimentar con distintos comportamientos.
+
+## 6. Evidencia de ejecución del sistema
+
+A continuación se muestran capturas de una ejecución real del simulador, que permiten observar la interacción por consola y la representación de la memoria.
+
+### Ejecución de la CLI
+
+En esta captura se aprecia el menú del simulador y la ejecución de las opciones para crear procesos y mostrar la memoria:
+
+![CLI menú principal](img/captura_menu.png)
+
+### Representación de la memoria RAM y Swap
+
+La siguiente captura muestra el estado de la memoria tras crear procesos, donde se puede observar cómo se asignan páginas a marcos y qué marcos están libres en RAM y en swap:
+
+![Estado de la memoria RAM y Swap](img/captura_memoria.png)
