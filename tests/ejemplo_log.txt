@@ -1,0 +1,23 @@
+Ejemplo de ejecución del simulador (versión CLI):
+
+Inicio del simulador con RAM=2048 KB, Swap=4096 KB, página=256 KB.
+
+1. Crear nuevo proceso (tamaño: 512 KB)
+   -> Proceso 1 creado con tamaño 512 KB y 2 páginas.
+
+2. Crear nuevo proceso (tamaño: 768 KB)
+   -> Proceso 2 creado con tamaño 768 KB y 3 páginas. Página 0 del Proceso 1 movida a Swap en marco 0 por falta de espacio.
+
+3. Acceder a página (PID=2, página=2)
+   -> Acceso exitoso a P2 página 2 en RAM[3] (TLB hit).
+
+4. Mostrar mapa de memoria
+   -> [0] P2, Pag 0 | [1] P2, Pag 1 | [2] P2, Pag 2 | [3] P1, Pag 1 | [4] Libre | [5] Libre | [6] Libre | [7] Libre
+   -> Swap[0] P1, Pag 0 | Swap[1] Libre | ...
+
+5. Mostrar métricas de rendimiento
+   -> Fallas de página: 1
+   -> Operaciones de swapping: 1
+   -> Marcos usados en RAM: 5/8 (62.5 % de utilización)
+
+Estos eventos se almacenan en el logger y se pueden consultar mediante la opción "Mostrar eventos registrados" del menú.
