@@ -1,62 +1,133 @@
-# Simulador de Gestor de Memoria RAM y Swap
+# Simulador de Gestión de Memoria – Paginación y Swapping
 
-Este repositorio contiene una implementación completa de un **simulador del gestor de memoria** que soporta multiprogramación, paginación, swapping y visualización del estado de la memoria.  El objetivo del proyecto es ayudar a comprender cómo un sistema operativo asigna memoria física a distintos procesos y gestiona la memoria virtual cuando la memoria principal se agota【823107480250600†L0-L17】.
+**Autores:**  
+Carolina Farrera Ramírez  
+Lluvia Rubí Hernández Flores
 
-El simulador se desarrolla en **Python** con una interfaz de línea de comandos (CLI).  Lee un archivo de configuración para establecer el tamaño de la memoria física (RAM), el tamaño del área de intercambio (Swap) y el tamaño de página/marco, calcula cuántas páginas necesita cada proceso y asigna marcos en RAM o en Swap.  Cuando no hay marcos libres, emplea un algoritmo de reemplazo FIFO para mover páginas a Swap【823107480250600†L50-L99】.
+Este proyecto implementa un **simulador funcional** del gestor de memoria de un sistema operativo, empleando paginación y un área de intercambio (swap).  Está diseñado para ayudar a comprender cómo un kernel asigna memoria física a procesos multiprogramados, traduce direcciones lógicas y gestiona la memoria virtual cuando la RAM se agota.
 
-## Integrantes
+## 🎯 Objetivos del proyecto
 
-Incluye aquí los nombres completos de los integrantes del equipo que desarrollaron el proyecto.
+El simulador tiene como finalidad que el estudiante:
 
-## Estructura del repositorio
+* Modele y comprenda el comportamiento interno del gestor de memoria de un SO.
+* Aplique conceptos teóricos de paginación, tablas de páginas, TLB y swapping.
+* Registre métricas de rendimiento (fallos de página, swaps, utilización de RAM) y visualice el estado de la memoria.
+* Produzca documentación clara y estructurada y un repositorio reproducible.
+
+## 🧠 Descripción general
+
+El simulador está desarrollado en **Python 3** con una interfaz de línea de comandos (CLI).  Lee el archivo de configuración `config.ini` para establecer:
+
+* Tamaño total de la memoria física (RAM)
+* Tamaño del área de intercambio (Swap)
+* Tamaño de página/marco
+
+Al crear procesos, calcula cuántas páginas necesita cada uno y las asigna a marcos libres.  Cuando la RAM se llena se activa un algoritmo de reemplazo **FIFO (First‑In, First‑Out)** que expulsa la página más antigua y la mueve al área de swap.  El sistema mantiene una TLB (Translation Lookaside Buffer) con política LRU para acelerar la traducción de direcciones.
+
+## 📂 Estructura del repositorio
 
 ```
-memory_simulator_repo/
-├── src/             # Código fuente del simulador (módulos Python)
-│   ├── config.py    # Lectura del archivo config.ini y cálculo de marcos
-│   ├── process.py   # Clase `Process` con tabla de páginas y estados
-│   ├── memory_manager.py  # Gestor de memoria que administra RAM, Swap, TLB y algoritmos de reemplazo
-│   ├── replacement.py     # Implementación del algoritmo FIFO (y base para otros algoritmos)
-│   ├── logger.py    # Registro de eventos y logs
-│   ├── cli.py       # Interfaz de línea de comandos para interactuar con el simulador
-│   └── main.py      # Punto de entrada para ejecutar el simulador
-├── docs/            # Documentación en formato Markdown y PDF
-│   ├── manual_usuario.md  # Manual de usuario de la CLI
-│   ├── manual_tecnico.md  # Manual técnico y descripción de la arquitectura
-│   └── reporte_tecnico.pdf # Informe técnico en formato PDF
-├── tests/           # Casos de prueba y evidencias (capturas, logs)
+simulador-gestor-memoria/
+├── src/           # Código fuente del simulador
+│   ├── config.py  # Lectura de config.ini y cálculo de marcos
+│   ├── process.py # Clase Process con tabla de páginas y estados
+│   ├── memory_manager.py  # Gestor de memoria, RAM, Swap, TLB y reemplazo
+│   ├── replacement.py     # Interfaz y algoritmo FIFO (base para LRU/clock)
+│   ├── logger.py  # Registro de eventos y métricas
+│   ├── cli.py     # Interfaz de línea de comandos
+│   └── main.py    # Punto de entrada para ejecutar el simulador
+├── docs/
+│   ├── manual_usuario.md  # Manual de usuario
+│   ├── manual_tecnico.md  # Manual técnico
+│   ├── reporte_tecnico.md # Informe técnico en Markdown
+│   ├── reporte_tecnico.pdf # Informe técnico en PDF
+│   └── img/   # Capturas de pantalla y diagramas
+│       ├── captura_menu.png
+│       └── captura_memoria.png
+├── tests/
 │   └── ejemplo_log.txt    # Ejemplo de ejecución con registros
-├── config.ini       # Archivo de configuración con tamaños de RAM, Swap y página
-└── README.md        # Este documento
+├── config.ini   # Parámetros de la simulación (RAM, Swap, página)
+└── README.md    # Documento actual
 ```
 
-## Instalación y ejecución
+## ⚙️ Instalación y ejecución
 
-1. **Prerrequisitos**: Se requiere Python 3.10 o superior. No se necesitan bibliotecas adicionales.
-2. **Configurar los parámetros del simulador**: edite el archivo `config.ini` para indicar el tamaño de la memoria RAM y Swap (en KB) y el tamaño de página/marco.  Estos parámetros determinan el número de marcos disponibles en RAM y Swap【823107480250600†L50-L58】.
+1. **Prerrequisitos**: se requiere Python 3.10 o superior.  No se necesitan bibliotecas adicionales.
+2. **Configurar parámetros**: edite `config.ini` para indicar el tamaño de la RAM y del swap (en KB) y el tamaño de página.  Ejemplo de configuración:
+
+   ```ini
+   [MEMORY]
+   RAM_SIZE_KB = 2048
+   SWAP_SIZE_KB = 4096
+   PAGE_SIZE_KB = 256
+   ```
+
 3. **Ejecutar el simulador**:
 
-   Desde la raíz del repositorio, utilice el siguiente comando para iniciar la aplicación en modo CLI:
+   En la raíz del repositorio, ejecute:
 
    ```bash
    python src/main.py
    ```
 
-   Al iniciar, el programa mostrará un resumen de la configuración y un menú interactivo con las opciones para crear procesos, terminar procesos, acceder a páginas, visualizar el mapa de RAM y Swap, consultar la tabla de páginas de un proceso, mostrar métricas de rendimiento y revisar los eventos registrados【823107480250600†L73-L88】.
+   Al iniciar, el programa mostrará un resumen de la configuración y el siguiente menú interactivo:
 
-## Breve explicación del diseño
+   ```
+   === Simulador de Gestor de Memoria ===
+   1. Crear nuevo proceso
+   2. Terminar proceso
+   3. Acceder a página de proceso
+   4. Mostrar mapa de memoria (RAM y Swap)
+   5. Mostrar tabla de páginas de un proceso
+   6. Mostrar métricas de rendimiento
+   7. Mostrar eventos registrados
+   0. Salir
+   ```
 
-El simulador está construido con módulos que representan las principales entidades del gestor de memoria:
+## 🧩 Resumen del diseño e implementación
 
-* **Config** (`config.py`): Lee el archivo `config.ini` y calcula el número total de marcos en RAM y Swap.
-* **Process** (`process.py`): Representa cada proceso con su identificador (PID), tamaño en kilobytes, número de páginas necesarias y tabla de páginas con bits de presencia y referencias.
-* **MemoryManager** (`memory_manager.py`): Es el núcleo del simulador.  Administra las listas de marcos en RAM y en Swap, asigna páginas a marcos, implementa el algoritmo FIFO para seleccionar una página víctima cuando la RAM se llena y realiza el swapping a Swap【823107480250600†L88-L99】.  Lleva métricas de fallos de página y swaps y mantiene una caché TLB de traducciones con política LRU.
-* **ReplacementAlgorithm** (`replacement.py`): Define la interfaz para algoritmos de reemplazo y su implementación FIFO.  Puede extenderse para soportar LRU o reloj【823107480250600†L88-L93】.
-* **Logger** (`logger.py`): Registra eventos importantes del simulador, como movimientos de páginas entre RAM y Swap y fallos de página.
-* **CLI** (`cli.py`): Proporciona una interfaz en consola para que el usuario interactúe con el simulador.  Muestra menús, solicita datos al usuario y llama a los métodos del `MemoryManager` para ejecutar las operaciones correspondientes【823107480250600†L73-L88】.
+### Paginación y tablas de páginas
 
-El algoritmo de reemplazo implementado es **FIFO (First‑In, First‑Out)**; cuando la RAM se llena, la página que ingresó primero es seleccionada como víctima y se traslada a Swap【823107480250600†L88-L99】.  La estructura de datos de la tabla de páginas se implementa mediante un diccionario por proceso donde cada entrada incluye un bit de presencia, el índice de marco en RAM (si está presente) y el índice en Swap (si está intercambiada).
+Cada proceso se divide en páginas de tamaño fijo.  Una tabla de páginas por proceso almacena el estado de cada página (presencia en RAM, índice de marco, índice de swap y bit de referencia).  La estructura de datos se implementa con diccionarios.
 
-## Licencia
+### Memoria RAM y Swap
 
-Este proyecto puede incluir una licencia de uso a elección del equipo.  Si se desea, agregue un archivo `LICENSE` en la raíz del repositorio.
+La RAM y el swap se modelan como listas de marcos (`Frame`) con campos `process_id` y `page_number`.  Una página se considera libre si ambos campos son `None`.  Cuando la RAM se llena, la política FIFO selecciona la página más antigua para enviarla al swap liberando espacio para la nueva página.
+
+### TLB y algoritmos de reemplazo
+
+Una TLB con política LRU almacena las traducciones más recientes para acelerar accesos.  El algoritmo de reemplazo implementado es FIFO, pero el diseño modular permite añadir LRU o reloj implementando una nueva clase en `replacement.py`.
+
+### Métricas y registros
+
+El simulador recopila y muestra al usuario:
+
+* **Fallas de página**: número de veces que una página no estaba en RAM y tuvo que cargarse desde swap.
+* **Swaps**: cantidad de operaciones en las que se movió una página entre RAM y swap.
+* **Utilización de RAM**: porcentaje de marcos ocupados en la memoria principal.
+
+Todos los eventos (creación y terminación de procesos, fallos de página, swaps) se registran en un archivo de log (`logger.py`) y pueden visualizarse a través del menú.
+
+## 📸 Ejemplo de ejecución
+
+Las siguientes imágenes muestran el simulador en ejecución real:
+
+### Inicio del simulador y creación de procesos
+
+![Ejecución del simulador – creación de procesos](docs/img/captura_menu.png)
+
+### Visualización de RAM y Swap
+
+![Mapa de memoria RAM y Swap](docs/img/captura_memoria.png)
+
+## 🔧 Posibles mejoras
+
+* Implementar algoritmos de reemplazo LRU o reloj.
+* Añadir una interfaz gráfica (GUI) para visualizar la memoria de forma más amigable.
+* Permitir la configuración del tamaño de la TLB y su política.
+* Exportar métricas a formato CSV para análisis externo.
+
+## 📝 Licencia
+
+Este proyecto se distribuye bajo la licencia MIT.  Consulte el archivo `LICENSE` para más detalles.
