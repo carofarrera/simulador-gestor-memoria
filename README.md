@@ -6,16 +6,16 @@ Lluvia Rubí Hernández Flores
 
 Este proyecto implementa un **simulador funcional** del gestor de memoria de un sistema operativo, empleando paginación y un área de intercambio (swap).  Está diseñado para ayudar a comprender cómo un kernel asigna memoria física a procesos multiprogramados, traduce direcciones lógicas y gestiona la memoria virtual cuando la RAM se agota.
 
-##  Objetivos del proyecto
+## 🎯 Objetivos del proyecto
 
 El simulador tiene como finalidad que el estudiante:
 
 * Modele y comprenda el comportamiento interno del gestor de memoria de un SO.
 * Aplique conceptos teóricos de paginación, tablas de páginas, TLB y swapping.
-* Registre métricas de rendimiento (fallos de página, swaps, utilización de RAM) y visualice el estado de la memoria.
+* Registre métricas de rendimiento (accesos totales, fallos de página, tasa de fallos, swaps de salida y entrada, ocupación de RAM y Swap, TLB hits y misses) y visualice el estado de la memoria.
 * Produzca documentación clara y estructurada y un repositorio reproducible.
 
-##  Descripción general
+## 🧠 Descripción general
 
 El simulador está desarrollado en **Python 3** con una interfaz de línea de comandos (CLI).  Lee el archivo de configuración `config.ini` para establecer:
 
@@ -25,7 +25,7 @@ El simulador está desarrollado en **Python 3** con una interfaz de línea de c
 
 Al crear procesos, calcula cuántas páginas necesita cada uno y las asigna a marcos libres.  Cuando la RAM se llena se activa un algoritmo de reemplazo **FIFO (First‑In, First‑Out)** que expulsa la página más antigua y la mueve al área de swap.  El sistema mantiene una TLB (Translation Lookaside Buffer) con política LRU para acelerar la traducción de direcciones.
 
-##  Estructura del repositorio
+## 📂 Estructura del repositorio
 
 ```
 simulador-gestor-memoria/
@@ -43,8 +43,12 @@ simulador-gestor-memoria/
 │   ├── reporte_tecnico.md # Informe técnico en Markdown
 │   ├── reporte_tecnico.pdf # Informe técnico en PDF
 │   └── img/   # Capturas de pantalla y diagramas
-│       ├── captura_menu.png
-│       └── captura_memoria.png
+│       ├── menu_principal.png
+│       ├── mapa_memoria.png
+│       ├── acceso_pagina.png
+│       ├── tabla_paginas.png
+│       ├── metricas.png
+│       └── logs.png
 ├── tests/
 │   └── ejemplo_log.txt    # Ejemplo de ejecución con registros
 ├── config.ini   # Parámetros de la simulación (RAM, Swap, página)
@@ -85,7 +89,7 @@ simulador-gestor-memoria/
    0. Salir
    ```
 
-##  Resumen del diseño e implementación
+## 🧩 Resumen del diseño e implementación
 
 ### Paginación y tablas de páginas
 
@@ -101,33 +105,36 @@ Una TLB con política LRU almacena las traducciones más recientes para acelerar
 
 ### Métricas y registros
 
-El simulador recopila y muestra al usuario:
+El simulador recopila y muestra un conjunto completo de métricas para evaluar el rendimiento de la gestión de memoria:
 
-* **Fallas de página**: número de veces que una página no estaba en RAM y tuvo que cargarse desde swap.
-* **Swaps**: cantidad de operaciones en las que se movió una página entre RAM y swap.
-* **Utilización de RAM**: porcentaje de marcos ocupados en la memoria principal.
+* **Accesos totales**: número total de referencias a páginas realizadas durante la ejecución.
+* **Fallas de página**: cantidad de accesos que resultaron en un traslado de la página desde Swap a la RAM.
+* **Tasa de fallos de página**: porcentaje de fallos de página respecto a los accesos totales.
+* **Swaps de salida (RAM → Swap)**: número de páginas expulsadas de la memoria física debido a falta de marcos libres.
+* **Swaps de entrada (Swap → RAM)**: número de páginas traídas desde la Swap a la RAM para atender un acceso.
+* **Ocupación de RAM y de Swap**: porcentaje de marcos ocupados en cada región de memoria en el momento de la consulta.
+* **TLB hits y misses**: número de accesos que encontraron una traducción válida en la TLB frente a los que necesitaron consultar la tabla de páginas.
 
-Todos los eventos (creación y terminación de procesos, fallos de página, swaps) se registran en un archivo de log (`logger.py`) y pueden visualizarse a través del menú.
+Además, todos los eventos (creación y terminación de procesos, accesos a páginas, fallos de página y swaps) se registran en un archivo de log (`logger.py`) y pueden visualizarse mediante la opción correspondiente del menú.
 
-##  Ejemplo de ejecución
-
+## 📸 Ejemplo de ejecución
 Las siguientes imágenes muestran el simulador en ejecución real:
 
 ### Inicio del simulador y creación de procesos
 
-![Ejecución del simulador – creación de procesos](docs/img/captura_menu.png)
+![Menú principal y creación de procesos](docs/img/menu_principal.png)
 
 ### Visualización de RAM y Swap
 
-![Mapa de memoria RAM y Swap](docs/img/captura_memoria.png)
+![Mapa de memoria RAM y Swap](docs/img/mapa_memoria.png)
 
-##  Posibles mejoras
+## 🔧 Posibles mejoras
 
 * Implementar algoritmos de reemplazo LRU o reloj.
 * Añadir una interfaz gráfica (GUI) para visualizar la memoria de forma más amigable.
 * Permitir la configuración del tamaño de la TLB y su política.
 * Exportar métricas a formato CSV para análisis externo.
 
-##  Licencia
+## 📝 Licencia
 
 Este proyecto se distribuye bajo la licencia MIT.  Consulte el archivo `LICENSE` para más detalles.
