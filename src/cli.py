@@ -1,10 +1,3 @@
-"""
-Interfaz de línea de comandos (CLI) para interactuar con el simulador de
-gestión de memoria. Permite crear y eliminar procesos, acceder a páginas,
-consultar el estado de la memoria, ver tablas de páginas y métricas de
-rendimiento.
-"""
-
 import random
 from typing import Optional
 
@@ -70,7 +63,6 @@ class CLI:
         """Crea un nuevo proceso solicitando tamaño al usuario."""
         size_str = input("Tamaño del proceso en KB (o 'r' para aleatorio): ").strip()
         if size_str.lower() == 'r':
-            # Generar tamaño aleatorio entre 1 página y mitad de la RAM
             max_size = self.config.values.ram_size_kb // 2
             size_kb = random.randint(self.config.values.page_size_kb, max_size)
         else:
