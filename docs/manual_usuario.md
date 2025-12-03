@@ -71,14 +71,38 @@ Finaliza la ejecución del simulador.  Los datos no se guardan de forma persiste
 
 Para ilustrar el uso del simulador, a continuación se presentan algunas capturas de pantalla tomadas durante su ejecución:
 
-### Menú principal
+### Menú principal y creación de procesos
 
-Esta captura muestra el menú inicial del sistema con sus opciones para crear procesos, terminar procesos, acceder a páginas y consultar la memoria:
+La primera captura muestra el menú inicial del sistema con todas las opciones disponibles.  Al seleccionar la opción **Crear nuevo proceso** e ingresar el tamaño en kilobytes, el simulador calcula cuántas páginas se requieren y asigna marcos en RAM; si no hay marcos libres, se procede a realizar swapping.  Al finalizar la operación se indica el **PID** asignado y el número de páginas cargadas.
 
-![Menú principal del simulador](img/captura_menu.png)
+![Menú principal y creación de procesos](img/menu_principal.png)
 
 ### Vista del mapa de memoria
 
-En la siguiente captura se observa la representación textual de la memoria RAM y del área de swap tras la creación de varios procesos.  Se aprecian los marcos ocupados por las páginas de distintos procesos y los marcos libres tanto en RAM como en Swap:
+Esta captura muestra la representación textual de la memoria física (RAM) y del área de intercambio (Swap) después de crear un proceso.  Se observan los marcos ocupados por las páginas del proceso y los marcos libres tanto en RAM como en Swap:
 
-![Representación de memoria RAM y Swap](img/captura_memoria.png)
+![Representación de memoria RAM y Swap](img/mapa_memoria.png)
+
+### Acceso a páginas y TLB
+
+La siguiente imagen corresponde a la operación **Acceder a página de proceso**.  Se debe ingresar el **PID** y el número de página.  Si la traducción se encuentra en la TLB (hit), se indica el marco en RAM; en caso contrario se actualiza la TLB y se produce un fallo de página si la página se encuentra en Swap:
+
+![Acceso a página y TLB](img/acceso_pagina.png)
+
+### Tabla de páginas de un proceso
+
+El simulador permite consultar la tabla de páginas de cualquier proceso para conocer la localización de cada página (en RAM, en Swap o no asignada).  En el ejemplo siguiente se muestra la tabla de páginas del proceso 1 después de su carga:
+
+![Tabla de páginas de un proceso](img/tabla_paginas.png)
+
+### Métricas de rendimiento
+
+Además de las operaciones básicas, el simulador calcula y muestra métricas de rendimiento de la memoria: accesos totales, fallos de página, tasa de fallos, swaps realizados (RAM → Swap y Swap → RAM), ocupación de RAM y de Swap, y estadísticas de la TLB.  Esta captura ilustra el resumen de métricas luego de varias operaciones:
+
+![Métricas de rendimiento](img/metricas.png)
+
+### Eventos registrados
+
+Finalmente, se puede revisar el log de eventos.  Aquí se registran los accesos a páginas, los fallos de página y cualquier operación de swapping.  La imagen muestra un ejemplo del registro después de acceder a una página que generó un hit en la TLB:
+
+![Eventos registrados](img/logs.png)

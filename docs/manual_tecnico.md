@@ -94,12 +94,32 @@ A continuación se muestran capturas de una ejecución real del simulador, que p
 
 ### Ejecución de la CLI
 
-En esta captura se aprecia el menú del simulador y la ejecución de las opciones para crear procesos y mostrar la memoria:
+En la primera captura se aprecia el menú del simulador y la creación de un proceso.  El usuario introduce el tamaño en kilobytes y se reporta el **PID**, el número de páginas y cualquier movimiento de páginas hacia Swap:
 
-![CLI menú principal](img/captura_menu.png)
+![Menú de la CLI y creación de procesos](img/menu_principal.png)
 
 ### Representación de la memoria RAM y Swap
 
-La siguiente captura muestra el estado de la memoria tras crear procesos, donde se puede observar cómo se asignan páginas a marcos y qué marcos están libres en RAM y en swap:
+La siguiente captura muestra el estado de la memoria tras crear un proceso.  Se observan los marcos ocupados por las páginas de dicho proceso y los marcos libres tanto en RAM como en Swap:
 
-![Estado de la memoria RAM y Swap](img/captura_memoria.png)
+![Estado de la memoria RAM y Swap](img/mapa_memoria.png)
+
+### Acceso a páginas y TLB
+
+El simulador permite acceder a páginas específicas de un proceso.  Si la traducción se encuentra en la TLB, se indica el marco físico y se incrementan los **TLB hits**; en caso contrario se produce un fallo de página y la página se intercambia desde Swap, actualizando las métricas:
+
+![Acceso a página y TLB](img/acceso_pagina.png)
+
+### Tabla de páginas
+
+También se puede consultar la tabla de páginas de un proceso para ver la ubicación de cada página (en RAM, en Swap o no asignada).  En el ejemplo, la página 0 del proceso 1 se encuentra en RAM:
+
+![Tabla de páginas](img/tabla_paginas.png)
+
+### Métricas y logs
+
+El gestor de memoria mantiene contadores de accesos, fallos de página, swaps de entrada y salida, ocupación de RAM y Swap, así como hits y misses en la TLB.  El usuario puede consultar un resumen de estas métricas y visualizar el log de eventos para analizar el comportamiento del sistema:
+
+![Métricas](img/metricas.png)
+
+![Log de eventos](img/logs.png)
