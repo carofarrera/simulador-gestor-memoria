@@ -128,6 +128,22 @@ Las siguientes imágenes muestran el simulador en ejecución real:
 
 ![Mapa de memoria RAM y Swap](docs/img/mapa_memoria.png)
 
+### Acceso a página con TLB hit y fallo de página
+
+![Acceso a página con TLB hit](docs/img/acceso_pagina.png)
+
+### Tabla de páginas de un proceso
+
+![Tabla de páginas](docs/img/tabla_paginas.png)
+
+### Métricas de rendimiento
+
+![Métricas](docs/img/metricas.png)
+
+### Eventos registrados (logs)
+
+![Eventos registrados](docs/img/logs.png)
+
 ## 🔧 Posibles mejoras
 
 * Implementar algoritmos de reemplazo LRU o reloj.
