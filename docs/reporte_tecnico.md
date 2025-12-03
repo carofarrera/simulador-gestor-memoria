@@ -3,7 +3,7 @@
 ## Portada
 
 **Título:** Simulador de Gestor de Memoria RAM y Swap  
-**Equipo:** [Nombres de los integrantes]  
+**Equipo:** Carolina Farrera Ramírez, Lluvia Rubí Hernández Flores  
 **Fecha:** 2 de diciembre de 2025
 
 ---

@@ -1,5 +1,9 @@
 # Manual de Usuario
 
+**Autores:**  
+Carolina Farrera Ramírez  
+Lluvia Rubí Hernández Flores
+
 El **Manual de Usuario** describe el funcionamiento de la interfaz de línea de comandos (CLI) del simulador del gestor de memoria.  Asegúrese de haber configurado correctamente el archivo `config.ini` y de ejecutar el programa como se indica en el README.
 
 ## Inicio del simulador

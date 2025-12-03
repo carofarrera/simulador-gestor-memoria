@@ -1,5 +1,9 @@
 # Manual Técnico
 
+**Autores:**  
+Carolina Farrera Ramírez  
+Lluvia Rubí Hernández Flores
+
 El **Manual Técnico** proporciona una descripción detallada de la arquitectura, las estructuras de datos y el funcionamiento interno del simulador de gestión de memoria.  El objetivo es documentar los conceptos empleados y facilitar el mantenimiento y la extensión futura del software.
 
 ## 1. Arquitectura general
